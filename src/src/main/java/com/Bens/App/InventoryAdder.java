@@ -21,7 +21,7 @@ public class InventoryAdder {
         //FIXME - Change this to a proper connection string and remove try/catch
         client = null;
         try {
-            client = new MongoClient("mongodb://localhost:27017");
+            client = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         }
         catch(UnknownHostException e) {
             System.out.println("Using local mongodb connection");
@@ -50,13 +50,23 @@ public class InventoryAdder {
      *
      * @param item: InventoryItem - the item to be added to the DB
      * This method inserts an Inventory Item object into the database record
+     * If the record already exists then we replace it with a new one
      */
     public void addInventoryObject(InventoryItem item)
     {
-        coll.insert(new BasicDBObject().append("_id", item.getId())
+        DBObject obj = coll.findOne(item.getId());
+        DBObject objToAdd = new BasicDBObject().append("_id", item.getId())
                 .append("name", item.getName())
                 .append("timeStamp", item.getTimeStamp())
-                .append("description", item.getDescription()));
+                .append("description", item.getDescription());
+
+
+        if (obj != null) {
+            coll.update(obj, objToAdd);
+        }
+        else {
+            coll.insert(objToAdd);
+        }
     }
 
 

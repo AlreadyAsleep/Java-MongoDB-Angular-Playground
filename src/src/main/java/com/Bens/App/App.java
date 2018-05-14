@@ -28,7 +28,7 @@ public class App
             name = stdin.next();
             time = LocalDateTime.now();
             System.out.print("Enter item description: ");
-            description = stdin.next();
+            description = stdin.nextLine();
             item = new InventoryItem(id, name, time.toString(), description);
             System.out.println(item.toString());
             System.out.print("Add this item?(y/n) ");
