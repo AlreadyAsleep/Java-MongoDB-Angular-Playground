@@ -28,11 +28,11 @@ public class App
             name = stdin.next();
             time = LocalDateTime.now();
             System.out.print("Enter item description: ");
-            description = stdin.nextLine();
+            description = stdin.next() + stdin.nextLine();
             item = new InventoryItem(id, name, time.toString(), description);
             System.out.println(item.toString());
             System.out.print("Add this item?(y/n) ");
-            if(!stdin.next().toLowerCase().equals("y"));
+            if(!stdin.next().toLowerCase().equals("y"))
                 adder.addInventoryObject(item);
             System.out.print("Continue(y/n): ");
             if(!stdin.next().toLowerCase().equals("y"))
